@@ -6,6 +6,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,21 +22,27 @@ public class ProductLookup extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-        Connection conn = null;
-        String sql = "select * from product where id=?";
         try {
+            String sql = "select * from product where id=?";
+            ArrayList<String> results = new ArrayList<>();
             response.setContentType("text/html");
             Class.forName("org.h2.Driver");
-            conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+            Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setInt(1, Integer.parseInt(request.getParameter("id")));
             ResultSet resultSet = pst.executeQuery();
             response.getWriter().print("<h1>Search Result</h1>");
             while (resultSet.next()) {
-                response.getWriter()
-                        .print("<h3>" + resultSet.getString("name") + "</h3>");
+                // get other things too like
+                // price
+                // quantity ... etc
+                results.add(resultSet.getString("name"));
             }
-        } catch (ClassNotFoundException | SQLException | IOException e) {
+            request.setAttribute("dbResults", results);
+            RequestDispatcher reqDispatch =
+                    getServletContext().getRequestDispatcher("/result.jsp");
+            reqDispatch.forward(request, response);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
