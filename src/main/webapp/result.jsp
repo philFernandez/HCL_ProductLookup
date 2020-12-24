@@ -21,19 +21,26 @@
 
 <body>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <h1>Search Result</h1>
-        <table>
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Qty</th>
-            </tr>
-            <tr>
-                <c:forEach items="${dbResults}" var="item">
-                    <td>${item}</td>
-                </c:forEach>
-            </tr>
-        </table>
+        <c:choose>
+            <c:when test="${not empty dbResults}">
+                <h1>Search Result</h1>
+                <table>
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                    </tr>
+                    <tr>
+                        <c:forEach items="${dbResults}" var="item">
+                            <td>${item}</td>
+                        </c:forEach>
+                    </tr>
+                </table>
+            </c:when>
+            <c:otherwise>
+                <h1>No Product Found</h1>
+            </c:otherwise>
+        </c:choose>
 </body>
 
 </html>
