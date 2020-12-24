@@ -29,6 +29,11 @@ public class ProductLookup extends HttpServlet {
             Class.forName("org.h2.Driver");
             Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
             PreparedStatement pst = conn.prepareStatement(sql);
+            try {
+                pst.setInt(1, Integer.parseInt(request.getParameter("id")));
+            } catch (NumberFormatException e) {
+                response.sendRedirect("bad_input.jsp");
+            }
             pst.setInt(1, Integer.parseInt(request.getParameter("id")));
             ResultSet resultSet = pst.executeQuery();
             while (resultSet.next()) {
