@@ -34,7 +34,6 @@ public class ProductLookup extends HttpServlet {
             } catch (NumberFormatException e) {
                 response.sendRedirect("bad_input.jsp");
             }
-            pst.setInt(1, Integer.parseInt(request.getParameter("id")));
             ResultSet resultSet = pst.executeQuery();
             while (resultSet.next()) {
                 results.add(resultSet.getString("name"));
@@ -45,8 +44,18 @@ public class ProductLookup extends HttpServlet {
             RequestDispatcher reqDispatch =
                     getServletContext().getRequestDispatcher("/result.jsp");
             reqDispatch.forward(request, response);
-        } catch (Exception e) {
+        } catch (IOException e) {
+            System.out.println("There was an IOException");
             e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("There was a SQLException");
+            e.printStackTrace();
+        } catch (ServletException e) {
+            System.out.println("There was a ServletException");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e1) {
+            System.out.println("There was a ClassNotFoundException");
+            e1.printStackTrace();
         }
     }
 }
