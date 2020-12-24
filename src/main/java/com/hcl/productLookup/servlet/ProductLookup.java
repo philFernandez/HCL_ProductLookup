@@ -22,13 +22,16 @@ public class ProductLookup extends HttpServlet {
         Connection conn = null;
         String sql = "select * from product where id=?";
         try {
-            Class.forName("h2.org.Driver");
+            response.setContentType("text/html");
+            Class.forName("org.h2.Driver");
             conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
             PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setInt(1, Integer.parseInt(request.getParameter("id")));
             ResultSet resultSet = pst.executeQuery();
+            response.getWriter().print("<h1>Search Result</h1>");
             while (resultSet.next()) {
                 response.getWriter()
-                        .println("<p>" + resultSet.getString("name") + "</p>");
+                        .print("<h3>" + resultSet.getString("name") + "</h3>");
             }
         } catch (ClassNotFoundException | SQLException | IOException e) {
             e.printStackTrace();
