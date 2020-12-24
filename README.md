@@ -7,4 +7,9 @@ mvn archetype:generate \
 -DarchetypeGroupId=org.apache.maven.archetypes \
 -DarchetypeArtifactId=maven-archetype-webapp \
 -DarchetypeVersion=1.4
+
+# In the interactive maven session do the following:
+    # GroupId=com.hcl.productLookup
+    # ArtifactId=productLookup
+    # Default for the rest (just hit enter over and over until it begins build)
 ```
