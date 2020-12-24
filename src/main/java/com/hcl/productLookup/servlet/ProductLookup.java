@@ -33,7 +33,7 @@ public class ProductLookup extends HttpServlet {
             ResultSet resultSet = pst.executeQuery();
             while (resultSet.next()) {
                 results.add(resultSet.getString("name"));
-                results.add(String.format("%.2f", resultSet.getFloat("price")));
+                results.add("$" + String.format("%.2f", resultSet.getFloat("price")));
                 results.add(Integer.toString(resultSet.getInt("quantity")));
             }
             request.setAttribute("dbResults", results);
