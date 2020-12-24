@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +25,9 @@ public class ProductLookup extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
             String sql = "select * from product where id=?";
-            ArrayList<String> results = new ArrayList<>();
-            response.setContentType("text/html");
+            // Define a List for holding the ResultSet from the database query.
+            // This will be passed to result.jsp for rendering
+            List<String> results = new ArrayList<>();
             Class.forName("org.h2.Driver");
             Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
             PreparedStatement pst = conn.prepareStatement(sql);
@@ -35,12 +37,15 @@ public class ProductLookup extends HttpServlet {
                 response.sendRedirect("bad_input.jsp");
             }
             ResultSet resultSet = pst.executeQuery();
+            // Add the db result to the results List in String form
             while (resultSet.next()) {
                 results.add(resultSet.getString("name"));
                 results.add("$" + String.format("%.2f", resultSet.getFloat("price")));
                 results.add(Integer.toString(resultSet.getInt("quantity")));
             }
+            // Put the results list into the request's context to be used in jsp
             request.setAttribute("dbResults", results);
+            // Dispatch the request context to the result.jsp
             RequestDispatcher reqDispatch =
                     getServletContext().getRequestDispatcher("/result.jsp");
             reqDispatch.forward(request, response);
