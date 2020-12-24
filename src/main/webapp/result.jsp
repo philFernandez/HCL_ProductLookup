@@ -12,9 +12,10 @@
         color: teal;
     }
 
-    table,
-    th,
-    td {
+
+    table.result,
+    table.result th,
+    table.result td {
         border: 1px solid black;
     }
 </style>
@@ -24,7 +25,7 @@
         <c:choose>
             <c:when test="${not empty dbResults}">
                 <h1>Search Result</h1>
-                <table>
+                <table class="result">
                     <tr>
                         <th>Item</th>
                         <th>Price</th>
@@ -41,6 +42,7 @@
                 <h1>No Product Found</h1>
             </c:otherwise>
         </c:choose>
+        <%@include file="_search.html" %>
 </body>
 
 </html>

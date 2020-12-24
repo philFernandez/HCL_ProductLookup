@@ -8,15 +8,7 @@
 </head>
 
 <body>
-    <form action="ProductLookup" method="get">
-        <table>
-            <tr>
-                <td>Product ID : </td>
-                <td><input type="text" name="id"></td>
-            </tr>
-        </table>
-        <button type="submit">Search</button>
-    </form>
+    <%@include file="_search.html" %>
 </body>
 
 </html>

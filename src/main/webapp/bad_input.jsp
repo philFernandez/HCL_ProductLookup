@@ -10,7 +10,8 @@
 <body>
     <h1>Invalid Input</h1>
     <h4>Please enter an ID number</h4>
-    <a href="index.jsp"><button>Try Again</button></a>
+    <%@include file="_search.html" %>
+
 </body>
 
 </html>
