@@ -31,12 +31,10 @@ public class ProductLookup extends HttpServlet {
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setInt(1, Integer.parseInt(request.getParameter("id")));
             ResultSet resultSet = pst.executeQuery();
-            response.getWriter().print("<h1>Search Result</h1>");
             while (resultSet.next()) {
-                // get other things too like
-                // price
-                // quantity ... etc
                 results.add(resultSet.getString("name"));
+                results.add(String.format("%.2f", resultSet.getFloat("price")));
+                results.add(Integer.toString(resultSet.getInt("quantity")));
             }
             request.setAttribute("dbResults", results);
             RequestDispatcher reqDispatch =
